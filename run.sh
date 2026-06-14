@@ -56,4 +56,13 @@ case "$1" in
       --entrypoint sh \
       reporter -c "ls -la /data"
     ;;
+
+  report_server)
+    mkdir -p "$DATA_DIR"
+    docker run -d --rm \
+      --name report_server \
+      -v "$DATA_DIR":/usr/share/nginx/html:ro \
+      -p 8080:80 \
+      nginx:alpine
+    ;;
 esac
