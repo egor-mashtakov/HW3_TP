@@ -33,4 +33,27 @@ case "$1" in
       reporter
     ;;
 
+  structure)
+    find . -not -path './.git/*' | sort | sed 's|[^/]*/|  |g'
+    ;;
+
+  clear_data)
+    rm -f "$DATA_DIR"/*.csv "$DATA_DIR"/*.html
+    ;;
+
+  inside_generator)
+    mkdir -p "$DATA_DIR"
+    docker run --rm \
+      -v "$DATA_DIR":/data \
+      --entrypoint sh \
+      generator -c "ls -la /data"
+    ;;
+
+  inside_reporter)
+    mkdir -p "$DATA_DIR"
+    docker run --rm \
+      -v "$DATA_DIR":/data \
+      --entrypoint sh \
+      reporter -c "ls -la /data"
+    ;;
 esac
