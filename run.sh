@@ -21,4 +21,16 @@ case "$1" in
     mkdir -p "$LOCAL_DATA_DIR"
     python3 generator/generate.py "$LOCAL_DATA_DIR"
     ;;
+
+  build_reporter)
+    docker build -t reporter ./reporter
+    ;;
+
+  run_reporter)
+    mkdir -p "$DATA_DIR"
+    docker run --rm \
+      -v "$DATA_DIR":/data \
+      reporter
+    ;;
+
 esac
